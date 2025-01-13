@@ -13,9 +13,14 @@
     --foreground: #ededed;
   }
 }
-
+html {
+  font-family: "Funnel Sans", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+
 }
