@@ -47,7 +47,6 @@ export default async function handler(
       .json({ code: "failure", message: "Bad Request", data: null });
   }
 
-  // Continue with the request
   const response = await fetch(
     `${
       process.env.MODE == "development"

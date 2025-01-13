@@ -19,7 +19,6 @@ const Register: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
     const response = await fetch("/api/v8/auth/register", {
       method: "POST",
       headers: {

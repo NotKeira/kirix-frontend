@@ -16,7 +16,7 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
+
     const response = await fetch('/api/v8/auth/login', {
         method: 'POST',
         headers: {
