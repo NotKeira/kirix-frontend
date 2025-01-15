@@ -9,6 +9,9 @@ const Register: React.FC = () => {
 
   const [showPopup, setShowPopup] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [message, setMessage] = useState(
+    "Registration failed. Try again later!"
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -30,16 +33,20 @@ const Register: React.FC = () => {
         password: formData.password,
       }),
     });
-
-    if (!response.ok) {
-      console.log("Registration failed", response.json());
-      setIsSuccess(false);
-      setShowPopup(true);
-      return
-    }
-
     const data = await response.json();
-
+    if (response.status !== 200) {
+      switch (response.status) {
+        case 400:
+          setIsSuccess(false);
+          setShowPopup(true);
+          setMessage(data.message);
+          return;
+        default:
+          setIsSuccess(false);
+          setShowPopup(true);
+          return;
+      }
+    }
     if (data.code === "success") {
       console.log("Registration successful");
       setIsSuccess(true);
@@ -57,6 +64,7 @@ const Register: React.FC = () => {
         <Authentication
           isVisible={showPopup}
           isSuccess={isSuccess}
+          message={message}
           onClose={() => setShowPopup(false)}
         />
       )}

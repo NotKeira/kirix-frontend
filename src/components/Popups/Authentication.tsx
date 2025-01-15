@@ -1,9 +1,19 @@
+import { useRouter } from "next/router";
 import React from "react";
+import { useEffect } from "react";
+
 import styled, { keyframes } from "styled-components";
 
+const RedirectNotice = styled.div`
+  margin-block-start: 10px;
+  font-size: 0.9rem;
+  text-align: center;
+  color: #777;
+`;
 interface AuthenticationPopupProps {
   isSuccess: boolean;
   isVisible: boolean;
+  message: string;
   onClose?: () => void;
 }
 
@@ -52,7 +62,7 @@ const StatusBar = styled.div<{ isSuccess: boolean }>`
   inline-size: 95%;
 `;
 
-const Message = styled.p<{ isSuccess: boolean }>`
+const Message = styled.p<{ isSuccess: boolean, message: string }>`
   color: ${(props: { isSuccess: any }) =>
     props.isSuccess ? "#4CAF50" : "#f44336"};
   font-size: 1.1rem;
@@ -64,18 +74,29 @@ const Message = styled.p<{ isSuccess: boolean }>`
 const Authentication: React.FC<AuthenticationPopupProps> = ({
   isSuccess,
   isVisible,
+  message,
   onClose,
 }) => {
+  const router = useRouter();
+  useEffect(() => {
+    if (isVisible) {
+      const timer = setTimeout(() => {
+        onClose && onClose();
+        router.push("/me");
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [isVisible]);
   return (
     <Overlay isVisible={isVisible} onClick={onClose}>
       <PopupContainer
         onClick={(e: { stopPropagation: () => any }) => e.stopPropagation()}
       >
         <StatusBar isSuccess={isSuccess} />
-        <Message isSuccess={isSuccess}>
+        <Message isSuccess={isSuccess} message={message}>
           {isSuccess
             ? "Registration successful!"
-            : "Registration failed! Please try again later."}
+            : message}
         </Message>
       </PopupContainer>
     </Overlay>

@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { setCookie } from "@/utils/cookie";
 
 type Data = {
   code: string;
@@ -8,10 +9,6 @@ type Data = {
         user: {
           id: string;
           username: string;
-          tokens: {
-            accessToken: string;
-            refreshToken: string;
-          };
         };
       }
     | null
@@ -68,11 +65,18 @@ export default async function handler(
   );
 
   if (response.status !== 200) {
-    res
-      .status(500)
-      .json({ code: "failure", message: "Internal Server Error", data: null });
+    const data = await response.json();
+    res.status(400).json(data);
   } else {
     const data = await response.json();
+    if (data.code === "success") {
+      setCookie(res, "accessToken", data.data.user.tokens.accessToken, {
+        maxAge: 15 * 60,
+      });
+      setCookie(res, "refreshToken", data.data.user.tokens.refreshToken, {
+        maxAge: 7 * 24 * 60 * 60,
+      });
+    }
     return res.status(200).json(data as Data);
   }
 }
