@@ -9,6 +9,10 @@ type Data = {
         user: {
           id: string;
           username: string;
+          tokens: {
+            accessToken: string;
+            refreshToken: string;
+          };
         };
       }
     | null

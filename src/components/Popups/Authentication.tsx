@@ -79,14 +79,14 @@ const Authentication: React.FC<AuthenticationPopupProps> = ({
 }) => {
   const router = useRouter();
   useEffect(() => {
-    if (isVisible) {
+    if (isVisible && isSuccess) {
       const timer = setTimeout(() => {
         onClose && onClose();
-        router.push("/me");
+        router.push("/");
       }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [isVisible]);
+  }, [isVisible, isSuccess]);
   return (
     <Overlay isVisible={isVisible} onClick={onClose}>
       <PopupContainer
