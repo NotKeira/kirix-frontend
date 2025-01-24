@@ -28,15 +28,15 @@ const slideUp = keyframes`
     }
 `;
 
-const Overlay = styled.div<{ isVisible: boolean }>`
+const Overlay = styled.div<{ isvisible: boolean }>`
   position: fixed;
   inset-block-start: 0;
   inset-inline-start: 0;
   inline-size: 100%;
   block-size: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  display: ${(props: { isVisible: any }) =>
-    props.isVisible ? "flex" : "none"};
+  display: ${(props: { isvisible: any }) =>
+    props.isvisible ? "flex" : "none"};
   justify-content: center;
   align-items: center;
   z-index: 1000;
@@ -62,7 +62,7 @@ const StatusBar = styled.div<{ isSuccess: boolean }>`
   inline-size: 95%;
 `;
 
-const Message = styled.p<{ isSuccess: boolean, message: string }>`
+const Message = styled.p<{ isSuccess: boolean; message: string }>`
   color: ${(props: { isSuccess: any }) =>
     props.isSuccess ? "#4CAF50" : "#f44336"};
   font-size: 1.1rem;
@@ -88,15 +88,13 @@ const Authentication: React.FC<AuthenticationPopupProps> = ({
     }
   }, [isVisible, isSuccess]);
   return (
-    <Overlay isVisible={isVisible} onClick={onClose}>
+    <Overlay isvisible={isVisible} onClick={onClose}>
       <PopupContainer
         onClick={(e: { stopPropagation: () => any }) => e.stopPropagation()}
       >
         <StatusBar isSuccess={isSuccess} />
         <Message isSuccess={isSuccess} message={message}>
-          {isSuccess
-            ? "Registration successful!"
-            : message}
+          {isSuccess ? "Registration successful!" : message}
         </Message>
       </PopupContainer>
     </Overlay>

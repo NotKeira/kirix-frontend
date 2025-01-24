@@ -70,6 +70,9 @@ export default async function handler(
   } else {
     const data = await response.json();
     if (data.code === "success") {
+      console.log("Login successful");
+      console.log(data.data.user.tokens.accessToken);
+      console.log(data.data.user.tokens.refreshToken);
       setCookie(res, "accessToken", data.data.user.tokens.accessToken, {
         maxAge: 15 * 60,
       });

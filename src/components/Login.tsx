@@ -22,7 +22,7 @@ const Register: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await fetch("/api/v8/auth/register", {
+    const response = await fetch("/api/v8/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,11 +48,11 @@ const Register: React.FC = () => {
       }
     }
     if (data.code === "success") {
-      console.log("Registration successful");
+      console.log("Login successful");
       setIsSuccess(true);
       setShowPopup(true);
     } else {
-      console.log("Registration failed");
+      console.log("Login failed");
       setIsSuccess(false);
       setShowPopup(true);
     }
@@ -101,7 +101,7 @@ const Register: React.FC = () => {
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors"
           >
-            Complete Registration
+            Login
           </button>
         </form>
       </div>

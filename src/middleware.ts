@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { parse } from "cookie";
 import { isValid, SessionData } from "./utils/Session";
 
-const sessionCookieName = "userSession";
+const sessionCookieName = "accessToken";
 
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
@@ -22,7 +22,8 @@ export function middleware(request: NextRequest) {
     url.pathname = "/authorise";
     return NextResponse.redirect(url);
   }
-  const validSession = isValid(sessionCookie as unknown as SessionData);
+  const validSession = sessionCookie && sessionCookie.length > 0;
+  /*isValid(sessionCookie as unknown as SessionData);*/
   if (!validSession) {
     url.pathname = "/authorise";
     return NextResponse.redirect;
